@@ -1,0 +1,116 @@
+{
+  "abi": [],
+  "bytecode": {
+    "object": "0x",
+    "sourceMap": "",
+    "linkReferences": {}
+  },
+  "deployedBytecode": {
+    "object": "0x",
+    "sourceMap": "",
+    "linkReferences": {}
+  },
+  "methodIdentifiers": {},
+  "rawMetadata": "{\"compiler\":{\"version\":\"0.8.20+commit.a1b79de6\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"src/interfaces/IGoldilend.sol\":\"IGoldilend\"},\"evmVersion\":\"shanghai\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[\":@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/\",\":ds-test/=lib/forge-std/lib/ds-test/src/\",\":erc4626-tests/=lib/openzeppelin-contracts/lib/erc4626-tests/\",\":forge-std/=lib/forge-std/src/\",\":foundry-huff/=lib/foundry-huff/src/\",\":openzeppelin-contracts/=lib/openzeppelin-contracts/\",\":solady/=lib/solady/\",\":solidity-stringutils/=lib/foundry-huff/lib/solidity-stringutils/\",\":stringutils/=lib/foundry-huff/lib/solidity-stringutils/\"]},\"sources\":{\"src/interfaces/IGoldilend.sol\":{\"keccak256\":\"0x4390143eb70a774628cf4ad4393c3d47b8b598683ee48c84f8c660cceba228f3\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://ff8a8148e9194c44e739848c6a22f48030f2cb9ffead900167b24cbb26c44d65\",\"dweb:/ipfs/QmRbwJcdnrYZTGr7uxpvWD6HaFDX1nSkiHDNSSTSRdXtWu\"]}},\"version\":1}",
+  "metadata": {
+    "compiler": {
+      "version": "0.8.20+commit.a1b79de6"
+    },
+    "language": "Solidity",
+    "output": {
+      "abi": [],
+      "devdoc": {
+        "kind": "dev",
+        "methods": {},
+        "version": 1
+      },
+      "userdoc": {
+        "kind": "user",
+        "methods": {},
+        "version": 1
+      }
+    },
+    "settings": {
+      "remappings": [
+        "@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/",
+        "ds-test/=lib/forge-std/lib/ds-test/src/",
+        "erc4626-tests/=lib/openzeppelin-contracts/lib/erc4626-tests/",
+        "forge-std/=lib/forge-std/src/",
+        "foundry-huff/=lib/foundry-huff/src/",
+        "openzeppelin-contracts/=lib/openzeppelin-contracts/",
+        "solady/=lib/solady/",
+        "solidity-stringutils/=lib/foundry-huff/lib/solidity-stringutils/",
+        "stringutils/=lib/foundry-huff/lib/solidity-stringutils/"
+      ],
+      "optimizer": {
+        "enabled": true,
+        "runs": 200
+      },
+      "metadata": {
+        "bytecodeHash": "ipfs"
+      },
+      "compilationTarget": {
+        "src/interfaces/IGoldilend.sol": "IGoldilend"
+      },
+      "libraries": {}
+    },
+    "sources": {
+      "src/interfaces/IGoldilend.sol": {
+        "keccak256": "0x4390143eb70a774628cf4ad4393c3d47b8b598683ee48c84f8c660cceba228f3",
+        "urls": [
+          "bzz-raw://ff8a8148e9194c44e739848c6a22f48030f2cb9ffead900167b24cbb26c44d65",
+          "dweb:/ipfs/QmRbwJcdnrYZTGr7uxpvWD6HaFDX1nSkiHDNSSTSRdXtWu"
+        ],
+        "license": "MIT"
+      }
+    },
+    "version": 1
+  },
+  "ast": {
+    "absolutePath": "src/interfaces/IGoldilend.sol",
+    "id": 12789,
+    "exportedSymbols": {
+      "IGoldilend": [
+        12788
+      ]
+    },
+    "nodeType": "SourceUnit",
+    "src": "31:53:32",
+    "nodes": [
+      {
+        "id": 12787,
+        "nodeType": "PragmaDirective",
+        "src": "31:24:32",
+        "nodes": [],
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".19"
+        ]
+      },
+      {
+        "id": 12788,
+        "nodeType": "ContractDefinition",
+        "src": "57:27:32",
+        "nodes": [],
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "IGoldilend",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "fullyImplemented": true,
+        "linearizedBaseContracts": [
+          12788
+        ],
+        "name": "IGoldilend",
+        "nameLocation": "67:10:32",
+        "scope": 12789,
+        "usedErrors": [],
+        "usedEvents": []
+      }
+    ],
+    "license": "MIT"
+  },
+  "id": 32
+}
