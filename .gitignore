@@ -1,3 +1,8 @@
 .env
-whitelist/node_modules
-lib
+.vscode
+cache
+coverage
+out
+price_tests
+test
+whitelist
