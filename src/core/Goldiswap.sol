@@ -26,7 +26,7 @@ import { ERC20 } from "../../lib/solady/src/tokens/ERC20.sol";
 /// @notice Novel AMM & Facilitator of $LOCKS token 
 /// @author geeb
 /// @author ampnoob
-contract GAMM is ERC20 {
+contract Goldiswap is ERC20 {
 
 
   /*´:°•.°+.*•´.*:˚.°*.˚•´.°:°•.°•.*•´.*:˚.°*.˚•´.°:°•.°+.*•´.*:*/
@@ -45,10 +45,9 @@ contract GAMM is ERC20 {
   uint256 public lastFloorRaise;
   uint256 public lastFloorDecrease;
 
-  address public multisig;
-  address public porridge;
-  address public borrow;
-  address public lge;
+  // address public multisig;
+  // address public porridge;
+  // address public borrow;
   address public honey;
 
 
@@ -58,25 +57,23 @@ contract GAMM is ERC20 {
 
 
   /// @notice Constructor of this contract
-  /// @param _multisig Address of the GoldilocksDAO multisig
-  /// @param _porridge Address of Porridge
-  /// @param _borrow Address of Borrow
-  /// @param _lge Address of LGE
+  /// Address of the GoldilocksDAO multisig
+  /// Address of Porridge
+  /// Address of Borrow
   /// @param _honey Address of $HONEY
   constructor(
-    address _multisig,
-    address _porridge,
-    address _borrow,
-    address _lge,
+    // address _multisig,
+    // address _porridge,
+    // address _borrow,
     address _honey
   ) {
-    multisig = _multisig;
-    porridge = _porridge;
-    borrow = _borrow;
-    lge = _lge;
+    // multisig = _multisig;
+    // porridge = _porridge;
+    // borrow = _borrow;
     honey = _honey;
     lastFloorRaise = block.timestamp;
     lastFloorDecrease = block.timestamp;
+    _mint(msg.sender, 5000e18);
   }
 
   /// @notice Returns the name of the $LOCKS token
@@ -95,10 +92,9 @@ contract GAMM is ERC20 {
   /*.•°:°.´+˚.*°.˚:*.´•*.+°.•°:´*.´•*.•°.•°:°.´:•˚°.*°.˚:*.´+°.•*/
 
 
-  error NotMultisig();
-  error NotLGE();
-  error NotPorridge();
-  error NotBorrow();
+  // error NotMultisig();
+  // error NotPorridge();
+  // error NotBorrow();
   error ExcessiveSlippage();
 
 
@@ -118,22 +114,22 @@ contract GAMM is ERC20 {
 
 
   /// @notice Ensures msg.sender is GoldilocksDAO multisig
-  modifier onlyMultisig() {
-    if(msg.sender != multisig) revert NotMultisig();
-    _;
-  }
+  // modifier onlyMultisig() {
+  //   if(msg.sender != multisig) revert NotMultisig();
+  //   _;
+  // }
 
   /// @notice Ensures msg.sender is the porridge address
-  modifier onlyPorridge() {
-    if(msg.sender != porridge) revert NotPorridge();
-    _;
-  }
+  // modifier onlyPorridge() {
+  //   if(msg.sender != porridge) revert NotPorridge();
+  //   _;
+  // }
 
   /// @notice Ensures msg.sender is the borrow address
-  modifier onlyBorrow() {
-    if(msg.sender != borrow) revert NotBorrow();
-    _;
-  }
+  // modifier onlyBorrow() {
+  //   if(msg.sender != borrow) revert NotBorrow();
+  //   _;
+  // }
 
 
   /*´:°•.°+.*•´.*:˚.°*.˚•´.°:°•.°•.*•´.*:˚.°*.˚•´.°:°•.°+.*•´.*:*/
@@ -371,43 +367,43 @@ contract GAMM is ERC20 {
   /// @param to Address to transfer $HONEY to
   /// @param amount Amount of $HONEY to transfer
   /// @param fee Fee that is sent to treasury
-  function borrowTransfer(address to, uint256 amount, uint256 fee) external onlyBorrow {
-    SafeTransferLib.safeTransfer(honey, to, amount - fee);
-    SafeTransferLib.safeTransfer(honey, multisig, fee);
-  }
+  // function borrowTransfer(address to, uint256 amount, uint256 fee) external onlyBorrow {
+  //   SafeTransferLib.safeTransfer(honey, to, amount - fee);
+  //   SafeTransferLib.safeTransfer(honey, multisig, fee);
+  // }
 
   /// @notice Mints $PRG tokens from $PRG token realization
   /// @dev Only Porridge contract can call this function
   /// @param to Recipient of minted $LOCKS tokens
   /// @param amount Amount of minted $LOCKS tokens
-  function porridgeMint(address to, uint256 amount) external onlyPorridge {
-    _mint(to, amount);
-  }
+  // function porridgeMint(address to, uint256 amount) external onlyPorridge {
+  //   _mint(to, amount);
+  // }
 
   /// @notice Allows the DAO to inject liquidity into the GAMM
   /// @param fslLiq Liquidity added to FSL
   /// @param pslLiq Liquidity added to PSL
-  function injectLiquidity(uint256 fslLiq, uint256 pslLiq) external onlyMultisig {
-    fsl += fslLiq;
-    psl += pslLiq;
-    SafeTransferLib.safeTransferFrom(honey, msg.sender, address(this), fslLiq + pslLiq);
-  }
+  // function injectLiquidity(uint256 fslLiq, uint256 pslLiq) external onlyMultisig {
+  //   fsl += fslLiq;
+  //   psl += pslLiq;
+  //   SafeTransferLib.safeTransferFrom(honey, msg.sender, address(this), fslLiq + pslLiq);
+  // }
 
   /// @notice Changes the address of the multisig address
   /// @dev Used after deployment by deployment address
   /// @param _multisig Address of the multisig
-  function setMultisig(address _multisig) external onlyMultisig {
-    multisig = _multisig;
-  }
+  // function setMultisig(address _multisig) external onlyMultisig {
+  //   multisig = _multisig;
+  // }
 
   /// @notice Allows the LGE to initiate the presale
-  function initiatePresaleClaim(uint256 fslLiq, uint256 pslLiq) external {
-    if(msg.sender != lge) revert NotLGE();
-    uint256 presale = 10000e18;
-    fsl = fslLiq;
-    psl = pslLiq;
-    supply = presale;
-    _mint(msg.sender, presale);
-  }
+  // function initiatePresaleClaim(uint256 fslLiq, uint256 pslLiq) external {
+  //   if(msg.sender != lge) revert NotLGE();
+  //   uint256 presale = 10000e18;
+  //   fsl = fslLiq;
+  //   psl = pslLiq;
+  //   supply = presale;
+  //   _mint(msg.sender, presale);
+  // }
 
 }
