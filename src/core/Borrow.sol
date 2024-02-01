@@ -19,7 +19,7 @@ pragma solidity ^0.8.19;
 //todo: fix balanceOf check to use checkpoints instead
 import { SafeTransferLib } from "../../lib/solady/src/utils/SafeTransferLib.sol";
 import { FixedPointMathLib } from "../../lib/solady/src/utils/FixedPointMathLib.sol";
-import { IGAMM } from "../interfaces/IGAMM.sol";
+import { IGoldiswap } from "../interfaces/IGoldiswap.sol";
 import { IPorridge } from "../interfaces/IPorridge.sol";
 
 
@@ -38,7 +38,7 @@ contract Borrow {
   mapping(address => uint256) public lockedLocks;
   mapping(address => uint256) public borrowedHoney;
 
-  address public gamm;
+  address public goldiswap;
   address public porridge;
   address public honey;
 
@@ -49,15 +49,15 @@ contract Borrow {
 
 
   /// @notice Constructor of this contract
-  /// @param _gamm Address of the GAMM
+  /// @param _goldiswap Address of Goldiswap
   /// @param _porridge Address of Porridge
   /// @param _honey Address of the HONEY contract
   constructor(
-    address _gamm,
+    address _goldiswap,
     address _porridge,
     address _honey 
   ) {
-    gamm = _gamm;
+    goldiswap = _goldiswap;
     porridge = _porridge;
     honey = _honey;
   }
@@ -104,7 +104,7 @@ contract Borrow {
   /// @param user Address of user
   /// @return limit Limit of user
   function borrowLimit(address user) external view returns (uint256) {
-    uint256 floorPrice = IGAMM(gamm).floorPrice();
+    uint256 floorPrice = IGoldiswap(goldiswap).floorPrice();
     return _borrowLimit(user, floorPrice);
   }
 
@@ -118,12 +118,12 @@ contract Borrow {
   /// @dev borrowLimit is floor price of $LOCKS * amount of available staked $LOCKS
   /// @param amount Amount of $HONEY to borrow
   function borrow(uint256 amount) external {
-    uint256 floorPrice = IGAMM(gamm).floorPrice();
+    uint256 floorPrice = IGoldiswap(goldiswap).floorPrice();
     if(!_borrowLimitCheck(amount, floorPrice)) revert InsufficientBorrowLimit();
     lockedLocks[msg.sender] += FixedPointMathLib.divWad(amount, floorPrice);
     borrowedHoney[msg.sender] += amount;
     uint256 fee = _calcFee(amount);
-    IGAMM(gamm).borrowTransfer(msg.sender, amount, fee);
+    IGoldiswap(goldiswap).borrowTransfer(msg.sender, amount, fee);
     emit Borrowed(msg.sender, amount);
   }
 
@@ -134,7 +134,7 @@ contract Borrow {
     uint256 repaidLocks = _calcRepayingLocks(amount);
     lockedLocks[msg.sender] -= repaidLocks;
     borrowedHoney[msg.sender] -= amount;
-    SafeTransferLib.safeTransferFrom(honey, msg.sender, gamm, amount);
+    SafeTransferLib.safeTransferFrom(honey, msg.sender, goldiswap, amount);
     emit Repaid(msg.sender, amount);
   }
 

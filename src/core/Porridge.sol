@@ -22,7 +22,7 @@ import { ERC20 } from "../../lib/solady/src/tokens/ERC20.sol";
 import { SafeTransferLib } from "../../lib/solady/src/utils/SafeTransferLib.sol";
 import { FixedPointMathLib } from "../../lib/solady/src/utils/FixedPointMathLib.sol";
 import { IBorrow } from "../interfaces/IBorrow.sol";
-import { IGAMM } from "../interfaces/IGAMM.sol";
+import { IGoldiswap } from "../interfaces/IGoldiswap.sol";
 
 
 /// @title Porridge
@@ -43,9 +43,9 @@ contract Porridge is ERC20 {
   mapping(address => uint256) public staked;
   mapping(address => uint256) public stakeStartTime;
 
-  address public gamm;
+  address public goldiswap;
   address public borrow;
-  address public goldilend;
+  address public multisig;
   address public honey;
 
 
@@ -55,19 +55,14 @@ contract Porridge is ERC20 {
 
 
   /// @notice Constructor of this contract
-  /// @param _gamm Address of the GAMM
-  /// @param _borrow Address of the Borrow contract
-  /// @param _goldilend Address of the Goldilend contract
+  /// @param _goldiswap Address of Goldiswap
   /// @param _honey Address of the HONEY contract
   constructor(
-    address _gamm, 
-    address _borrow,
-    address _goldilend,
+    address _goldiswap, 
     address _honey
   ) {
-    gamm = _gamm;
-    borrow = _borrow;
-    goldilend = _goldilend;
+    multisig = msg.sender;
+    goldiswap = _goldiswap;
     honey = _honey;
   }
 
@@ -87,7 +82,7 @@ contract Porridge is ERC20 {
   /*.•°:°.´+˚.*°.˚:*.´•*.+°.•°:´*.´•*.•°.•°:°.´:•˚°.*°.˚:*.´+°.•*/
 
 
-  error NotGoldilend();
+  error NotMultisig();
   error InvalidUnstake();
   error LocksBorrowedAgainst();
 
@@ -108,9 +103,9 @@ contract Porridge is ERC20 {
   /*.•°:°.´+˚.*°.˚:*.´•*.+°.•°:´*.´•*.•°.•°:°.´:•˚°.*°.˚:*.´+°.•*/
 
 
-  /// @notice Ensures msg.sender is the goldilend address
-  modifier onlyGoldilend() {
-    if(msg.sender != goldilend) revert NotGoldilend();
+  /// @notice Ensures msg.sender is GoldilocksDAO multisig
+  modifier onlyMultisig() {
+    if(msg.sender != multisig) revert NotMultisig();
     _;
   }
 
@@ -153,7 +148,7 @@ contract Porridge is ERC20 {
     }
     stakeStartTime[msg.sender] = block.timestamp;
     staked[msg.sender] += amount;
-    SafeTransferLib.safeTransferFrom(gamm, msg.sender, address(this), amount);
+    SafeTransferLib.safeTransferFrom(goldiswap, msg.sender, address(this), amount);
     emit Staked(msg.sender, amount);
   }
 
@@ -165,7 +160,7 @@ contract Porridge is ERC20 {
     uint256 stakedAmount = staked[msg.sender];
     staked[msg.sender] -= amount;
     _claim(stakedAmount);
-    SafeTransferLib.safeTransfer(gamm, msg.sender, amount);
+    SafeTransferLib.safeTransfer(goldiswap, msg.sender, amount);
     emit Unstaked(msg.sender, amount);
   }
 
@@ -173,8 +168,8 @@ contract Porridge is ERC20 {
   /// @param amount Amount of $PRG to burn
   function realize(uint256 amount) external {
     _burn(msg.sender, amount);
-    SafeTransferLib.safeTransferFrom(honey, msg.sender, gamm, FixedPointMathLib.mulWad(amount, IGAMM(gamm).floorPrice()));
-    IGAMM(gamm).porridgeMint(msg.sender, amount);
+    SafeTransferLib.safeTransferFrom(honey, msg.sender, goldiswap, FixedPointMathLib.mulWad(amount, IGoldiswap(goldiswap).floorPrice()));
+    IGoldiswap(goldiswap).porridgeMint(msg.sender, amount);
     emit Realized(msg.sender, amount);
   }
 
@@ -234,16 +229,19 @@ contract Porridge is ERC20 {
 
 
   /*´:°•.°+.*•´.*:˚.°*.˚•´.°:°•.°•.*•´.*:˚.°*.˚•´.°:°•.°+.*•´.*:*/
-  /*                   PERMISSIONED FUNCTION                    */
+  /*                   PERMISSIONED FUNCTIONS                   */
   /*.•°:°.´+˚.*°.˚:*.´•*.+°.•°:´*.´•*.•°.•°:°.´:•˚°.*°.˚:*.´+°.•*/
 
 
-  /// @notice Mints $PRG to user who is staking $gBERA
-  /// @dev Only Goldilend contract can call this function
-  /// @param to Recipient of minted $PRG tokens
-  /// @param amount Amount of minted $PRG tokens
-  function goldilendMint(address to, uint256 amount) external onlyGoldilend {
-    _mint(to, amount);
+  /// @notice Changes the address of the multisig address
+  /// @dev Used after deployment by deployment address
+  /// @param _multisig Address of the multisig
+  function setMultisig(address _multisig) external onlyMultisig {
+    multisig = _multisig;
+  }
+
+  function setBorrow(address _borrow) external onlyMultisig {
+    borrow = _borrow;
   }
 
 }
