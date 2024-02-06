@@ -60,7 +60,7 @@ contract govLOCKS is ERC20 {
 
   /// @notice Constructor of this contract
   /// @param _locks Address of $LOCKS  
-  /// @param _goldigov Address of the GoldiGovernor contract
+  /// @param _goldigov Address of the Goldigovernor contract
   constructor(
     address _locks,
     address _goldigov

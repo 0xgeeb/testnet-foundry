@@ -224,7 +224,7 @@ contract Goldiswap is ERC20 {
   }
   
   /// @notice Calculates market price of $LOCKS
-  /// @dev (fsl / supply) + ((psl / supply) * ((psl + fsl) / fsl)**5)
+  /// @dev (fsl / supply) + ((psl / supply) * ((psl + fsl) / fsl)**6)
   /// @param _fsl Current fsl
   /// @param _psl Current psl
   /// @param _supply Current supply

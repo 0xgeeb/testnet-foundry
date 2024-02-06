@@ -158,7 +158,7 @@ contract Timelock {
   }
 
   /// @notice Changes the address of the admin address
-  /// @param _admin Address of the GoldiGovernor contract
+  /// @param _admin Address of the Goldigovernor contract
   function setAdmin(address _admin) external {
     if(msg.sender != admin) revert NotAdmin();
     admin = _admin;

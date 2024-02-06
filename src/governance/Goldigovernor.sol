@@ -13,7 +13,7 @@ pragma solidity ^0.8.19;
 // |                                                                                            |
 // |============================================================================================|
 // ==============================================================================================
-// ===================================== GoldiGovernor ==========================================
+// ===================================== Goldigovernor ==========================================
 // ==============================================================================================
 
 
@@ -21,11 +21,11 @@ import { Timelock } from "./Timelock.sol";
 import { govLOCKS } from "./govLOCKS.sol";
 
 
-/// @title GoldiGovernor
+/// @title Goldigovernor
 /// @notice Governance contract for Goldilocks Protocol & Goldilocks DAO
 /// @dev Forked from Uniswap governance contracts, https://etherscan.io/address/0x408ed6354d4973f66138c91495f2f2fcbd8724c3
 /// @author geeb
-contract GoldiGovernor {
+contract Goldigovernor {
 
 
   /*´:°•.°+.*•´.*:˚.°*.˚•´.°:°•.°•.*•´.*:˚.°*.˚•´.°:°•.°+.*•´.*:*/
@@ -74,7 +74,7 @@ contract GoldiGovernor {
   /*.•°:°.´+˚.*°.˚:*.´•*.+°.•°:´*.´•*.•°.•°:°.´:•˚°.*°.˚:*.´+°.•*/
 
 
-  string public constant name = "GoldiGovernor";
+  string public constant name = "Goldigovernor";
   uint256 public constant MIN_PROPOSAL_THRESHOLD = 1e18;
   uint256 public constant MAX_PROPOSAL_THRESHOLD = 10000000e18;
   uint32 public constant MIN_VOTING_PERIOD = 5760; // About 24 hours
